@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+@import './assets/fonts.css';
+
+$primary-color: #FF7F50;
+$hover-color: #FF4500;
+$text-color: #333;
+$background-color: #f4f4f4;
+$border-color: #ddd;
+$light-text-color: #777;
+$secondary-color: #B0C4DE;
+
+body{
+    margin: 0;
+    font-family: 'Lato', "Helvetica Neue", sans-serif;
+    min-height: 100vh;
+    background-color: #fffcf8;
+}

@@ -1,0 +1,107 @@
+$primary-color: #FF7F50;
+$hover-color: #FF4500;
+$text-color: #333;
+$background-color: #f4f4f4;
+$border-color: #ddd;
+$light-text-color: #777;
+$secondary-color: #B0C4DE;
+
+.description {
+    text-align: center;
+    margin-bottom: 50px;
+    max-width: 600px;
+    margin: 60px auto;
+
+    h1 {
+        font-size: 2.5em;
+        margin-bottom: 30px;
+        color: $primary-color;
+    }
+
+    p {
+        font-size: 1.2em;
+        line-height: 1.8;
+
+        &.example {
+            font-style: italic;
+            color: $secondary-color;
+        }
+    }
+}
+
+.gift-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+
+    .input-field {
+        width: 100%;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid $border-color;
+        border-radius: 5px;
+        font-size: 1.2em;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+            outline-color: $primary-color;
+            border-color: $primary-color;
+        }
+
+    }
+
+    .submit-button {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 5px;
+        background-color: $primary-color;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.2em;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
+
+        &:hover {
+            background-color: $hover-color;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), 0px 2px 3px rgba(0, 0, 0, 0.22);
+        }
+
+        &:disabled{
+            background-color: $secondary-color;
+            cursor: not-allowed;
+        }
+    }
+}
+
+@media(max-width: 720px){
+    .description {
+        margin: 30px auto;
+
+        h1 {
+            font-size: 2em;  // Smaller font size
+        }
+
+        p {
+            font-size: 1em;  // Smaller font size
+        }
+    }
+
+    .gift-form {
+        margin: 20px auto;  // Smaller margin
+
+        .input-field {
+            padding: 15px;  // Smaller padding
+        }
+
+        .submit-button {
+            padding: 10px 20px;  // Smaller padding
+        }
+    }
+
+    :host{
+        padding: 0 20px;  // Smaller margin
+    }
+}

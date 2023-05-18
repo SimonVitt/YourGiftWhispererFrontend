@@ -1,0 +1,19 @@
+<div *ngIf="!onceSubmitted" class="placeholder-ideas">
+    <span>Your personal ideas will be displayed here!</span>
+</div>
+<div *ngIf="loading" class="loading-container">
+    <div class="loader"></div>
+    <span>Generating...</span>
+    <span>To provide the best selection this can take up to a minute :)</span>
+</div>
+<div *ngIf="displayIdeas" class="gift-ideas">
+    <app-single-gift-idea *ngFor="let idea of ideas" [idea]="idea"></app-single-gift-idea>
+    <button class="submit-button">Generate more Ideas</button>
+</div>
+<div *ngIf="wrongInputError" class="error-response">
+    <span>Please try again and provide more information! :)</span>
+</div>
+<div *ngIf="highDemandError" class="error-response">
+    <span>Oops! We are experiencing high demand right now.</span>
+    <span>Please try again soon! :)</span>
+</div>
