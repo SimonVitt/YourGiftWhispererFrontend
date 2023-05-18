@@ -12,8 +12,15 @@ export class ManageUxService {
   displayedIdeas = new BehaviorSubject<boolean>(false);
   highDemandError = new BehaviorSubject<boolean>(false);
   wrongInputError = new BehaviorSubject<boolean>(false);
+  otherError = new BehaviorSubject<boolean>(false);
+
+  ongoingRequest = new BehaviorSubject<boolean>(false);
 
   constructor() { }
+
+  triggerOngoingRequest(status: boolean){
+    this.ongoingRequest.next(status)
+  }
 
   triggerLoadingIdeas(status: boolean){
     this.loadingIdeasSubject.next(status);
@@ -33,6 +40,10 @@ export class ManageUxService {
 
   triggerWrongInput(status: boolean){
     this.wrongInputError.next(status);
+  }
+
+  triggerOtherError(status: boolean){
+    this.otherError.next(status);
   }
 
 }

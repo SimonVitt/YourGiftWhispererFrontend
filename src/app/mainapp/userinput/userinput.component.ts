@@ -12,7 +12,7 @@ import { ManageUxService } from 'src/app/services/manage-ux.service';
 export class UserinputComponent {
 
   giftinputForm!: FormGroup;
-  formSend: boolean = false;
+  disableBtn: boolean = false;
 
   constructor(private fb: FormBuilder, private manageIdeas: ManageIdeasService, private manageUx: ManageUxService) { }
 
@@ -20,29 +20,28 @@ export class UserinputComponent {
     this.giftinputForm = this.fb.group({
       user_input: new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(200)])
     });
+    this.manageUx.ongoingRequest.subscribe((status) => {
+      this.disableBtn = status;
+    })
   }
 
   async sendRequest() {
-    if (this.giftinputForm.valid && !this.formSend) {
-      this.formSend = true;
+    if (this.giftinputForm.valid && !this.disableBtn) {
+      this.manageUx.triggerOngoingRequest(true);
       this.manageUx.triggeronceSubmitted(true);
       this.manageUx.triggerHighDemand(false);
       this.manageUx.triggerWrongInput(false);
       this.manageUx.triggerdisplayedIdeas(false);
       this.manageUx.triggerLoadingIdeas(true);
-      this.formSend = true;
-      const fd = new FormData();
-      fd.append('user_input', this.giftinputForm.get('user_input')!.value);
+      this.manageUx.triggerOtherError(false);
       try {
-        await this.manageIdeas.getIdeas(fd);
-        this.formSend = false;
-        this.manageUx.triggerLoadingIdeas(false);
+        await this.manageIdeas.getIdeas(this.giftinputForm.get('user_input')!.value);
       } catch (e) {
         console.log(e);
         this.manageUx.triggerHighDemand(true);
-        this.manageUx.triggerLoadingIdeas(false);
-        this.formSend = false;
       }
+      this.manageUx.triggerOngoingRequest(false);
+      this.manageUx.triggerLoadingIdeas(false);
     }
   }
 }

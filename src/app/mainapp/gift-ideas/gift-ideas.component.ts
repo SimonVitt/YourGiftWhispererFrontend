@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { GiftIdea } from 'src/app/interfaces/gift-idea';
 import { ManageIdeasService } from 'src/app/services/manage-ideas.service';
 import { ManageUxService } from 'src/app/services/manage-ux.service';
@@ -16,8 +16,11 @@ export class GiftIdeasComponent {
   highDemandError: boolean = false;
   wrongInputError: boolean = false;
   onceSubmitted: boolean = false;
+  otherError: boolean = false;
 
-  constructor(private manageIdeas: ManageIdeasService, private manageUx: ManageUxService){}
+  disableBtn: boolean = false;
+
+  constructor(private manageIdeas: ManageIdeasService, private manageUx: ManageUxService, private cdr: ChangeDetectorRef){}
 
   ngOnInit(){
     this.manageIdeas.ideasSubject.subscribe((ideas) => {
@@ -49,7 +52,31 @@ export class GiftIdeasComponent {
       if(status){
         this.manageIdeas.scrollToBottom();
       }
+    });
+    this.manageUx.ongoingRequest.subscribe((status) => {
+      this.disableBtn = status;
+    });
+    this.manageUx.otherError.subscribe((status) => {
+      this.otherError = status;
+      if(status){
+        this.manageIdeas.scrollToBottom();
+      }
     })
+  }
+
+  async getMoreIdeas(){
+    this.manageUx.triggerOngoingRequest(true);
+    this.manageUx.triggerOtherError(false);
+    this.manageUx.triggerLoadingIdeas(true);
+    this.manageUx.triggerHighDemand(false);
+    try{
+      await this.manageIdeas.getMoreIdeas();
+    }catch(e){
+      console.log(e);
+      this.manageUx.triggerHighDemand(true);
+    }
+    this.manageUx.triggerLoadingIdeas(false);
+    this.manageUx.triggerOngoingRequest(false);
   }
 
 }

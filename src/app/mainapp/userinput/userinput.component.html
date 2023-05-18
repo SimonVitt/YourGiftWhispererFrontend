@@ -4,6 +4,6 @@
     <p class="example">Example: 'Looking for a fun, creative gift for my 8-year-old nephew who loves Lego, football, and playing PlayStation. My budget is 40€-100€.'</p>
 </div>
 <form class="gift-form" (submit)="sendRequest()" [formGroup]="giftinputForm">
-    <input [readOnly]="formSend" class="input-field" placeholder="Tell us about your wishes..." formControlName="user_input">
-    <button [disabled]="formSend" class="submit-button">Generate Ideas</button>
+    <input [readOnly]="disableBtn" class="input-field" placeholder="Tell us about your wishes..." formControlName="user_input">
+    <button [disabled]="disableBtn" class="submit-button">Generate Ideas</button>
 </form>

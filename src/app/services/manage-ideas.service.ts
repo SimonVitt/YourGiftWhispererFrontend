@@ -18,31 +18,54 @@ interface ResponseType {
 })
 export class ManageIdeasService {
 
-  chatId: string | undefined;
-  ideas: Array<GiftIdea> | undefined;
+  ideas: Array<GiftIdea> = [];
+  userrequest: string | undefined;
+
 
   ideasSubject = new BehaviorSubject<Array<GiftIdea>>([]);
 
   constructor(private backend: BackendCommunicationService, private manageUx: ManageUxService) { }
 
-  async getIdeas(fd: FormData) {
+  async getIdeas(user_input: string) {
+    const fd = new FormData();
+    this.userrequest = user_input;
+    fd.append('user_input', user_input);
     const response = await this.backend.sendPrompt(fd) as ResponseType;
-    console.log(response)
-    this.chatId = response.id!;
+    console.log(response);
     this.stringToJSON(response.choices[0].message.content);
+  }
+
+  async getMoreIdeas(){
+    const fd = new FormData();
+    const ideastring = JSON.stringify(this.ideas);
+    fd.append('user_input', this.userrequest!);
+    fd.append('currentideas', ideastring);
+    const response = await this.backend.sendPrompt(fd) as ResponseType;
+    try{
+      const jsonItems = JSON.parse(response.choices[0].message.content);
+      console.log(jsonItems)
+      const newIdeas = jsonItems as Array<GiftIdea>;
+      this.ideas = this.ideas.concat(newIdeas);
+      this.ideasSubject.next(this.ideas);
+      this.manageUx.triggerdisplayedIdeas(true);
+    }catch(e){
+      console.log(e);
+      this.manageUx.triggerOtherError(true);
+    }
   }
 
   stringToJSON(ideastring: string) {
     console.log(ideastring);
     try {
       const jsonItems = JSON.parse(ideastring);
-      console.log(jsonItems)
+      console.log(jsonItems);
       this.ideas = jsonItems as Array<GiftIdea>;
       console.log(this.ideas);
       this.ideasSubject.next(this.ideas);
       this.manageUx.triggerdisplayedIdeas(true);
     } catch (e) {
       console.log(e);
+      this.ideas = [];
       this.manageUx.triggerWrongInput(true);
     }
   }
