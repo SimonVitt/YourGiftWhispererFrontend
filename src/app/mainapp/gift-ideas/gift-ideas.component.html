@@ -3,7 +3,8 @@
 </div>
 <div *ngIf="displayIdeas" class="gift-ideas">
     <app-single-gift-idea *ngFor="let idea of ideas" [idea]="idea"></app-single-gift-idea>
-    <button class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()">Generate more Ideas</button>
+    <button *ngIf="!requestedMoreToOften" class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()">Generate more Ideas</button>
+    <span *ngIf="requestedMoreToOften" class="more-details">Please provide a more detailed description... :)</span>
 </div>
 <div *ngIf="loading" class="loading-container">
     <div class="loader"></div>

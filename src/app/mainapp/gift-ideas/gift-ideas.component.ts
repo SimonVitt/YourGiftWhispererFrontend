@@ -18,6 +18,8 @@ export class GiftIdeasComponent {
   onceSubmitted: boolean = false;
   otherError: boolean = false;
 
+  requestedMoreToOften: boolean = false;
+
   disableBtn: boolean = false;
 
   constructor(private manageIdeas: ManageIdeasService, private manageUx: ManageUxService, private cdr: ChangeDetectorRef){}
@@ -25,6 +27,13 @@ export class GiftIdeasComponent {
   ngOnInit(){
     this.manageIdeas.ideasSubject.subscribe((ideas) => {
       this.ideas = ideas;
+    });
+    this.manageIdeas.loadedMoreNumberSubject.subscribe((number) =>{
+      if(number > 3){
+        this.requestedMoreToOften = true;
+      }else{
+        this.requestedMoreToOften = false;
+      }
     });
     this.manageUx.displayedIdeas.subscribe((status) => {
       this.displayIdeas = status;

@@ -14,6 +14,8 @@ export class UserinputComponent {
   giftinputForm!: FormGroup;
   disableBtn: boolean = false;
 
+  submitted: boolean = false;
+
   constructor(private fb: FormBuilder, private manageIdeas: ManageIdeasService, private manageUx: ManageUxService) { }
 
   ngOnInit() {
@@ -26,7 +28,9 @@ export class UserinputComponent {
   }
 
   async sendRequest() {
+    this.submitted = true;
     if (this.giftinputForm.valid && !this.disableBtn) {
+      this.submitted = false;
       this.manageUx.triggerOngoingRequest(true);
       this.manageUx.triggeronceSubmitted(true);
       this.manageUx.triggerHighDemand(false);

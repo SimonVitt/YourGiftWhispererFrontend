@@ -37,6 +37,13 @@ $primary-color: #FF7F50;
     }
 }
 
+.more-details{
+    color: $secondary-color;
+    font-style: italic;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
 .error-response{
     margin-top: 40px;
     display: flex;
@@ -102,7 +109,8 @@ $primary-color: #FF7F50;
 
     .placeholder-ideas,
     .loading-container,
-    .error-response {
+    .error-response,
+    .more-details {
         font-size: 1em;  // Smaller font size
         margin-top: 20px;  // Reduce top margin
     }

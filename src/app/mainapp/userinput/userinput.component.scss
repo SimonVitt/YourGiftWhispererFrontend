@@ -6,6 +6,26 @@ $border-color: #ddd;
 $light-text-color: #777;
 $secondary-color: #B0C4DE;
 
+.error{
+    color: red;
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-size: 12px;
+    margin-left: 8px;
+    align-self: flex-start;
+    margin-bottom: 18px;
+}
+
+.error-placeholder{
+    color: transparent;
+    margin-top: 4px;
+    margin-bottom: 0;
+    font-size: 12px;
+    margin-left: 8px;
+    align-self: flex-start;
+    margin-bottom: 18px;
+}
+
 .description {
     text-align: center;
     margin-bottom: 50px;
@@ -39,7 +59,6 @@ $secondary-color: #B0C4DE;
     .input-field {
         width: 100%;
         padding: 20px;
-        margin-bottom: 20px;
         border: 1px solid $border-color;
         border-radius: 5px;
         font-size: 1.2em;

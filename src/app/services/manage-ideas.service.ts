@@ -21,12 +21,18 @@ export class ManageIdeasService {
   ideas: Array<GiftIdea> = [];
   userrequest: string | undefined;
 
+  loadedMoreNumberSubject = new BehaviorSubject<number>(0);
+
+  loadedMoreNumber: number = 0;
+
 
   ideasSubject = new BehaviorSubject<Array<GiftIdea>>([]);
 
   constructor(private backend: BackendCommunicationService, private manageUx: ManageUxService) { }
 
   async getIdeas(user_input: string) {
+    this.loadedMoreNumber = 0;
+    this.loadedMoreNumberSubject.next(this.loadedMoreNumber);
     const fd = new FormData();
     this.userrequest = user_input;
     fd.append('user_input', user_input);
@@ -37,7 +43,10 @@ export class ManageIdeasService {
 
   async getMoreIdeas(){
     const fd = new FormData();
-    const ideastring = JSON.stringify(this.ideas);
+    let ideastring = '';
+    this.ideas.forEach(idea => {
+      ideastring = ideastring + ',' + idea.title;
+    });
     fd.append('user_input', this.userrequest!);
     fd.append('currentideas', ideastring);
     const response = await this.backend.sendPrompt(fd) as ResponseType;
@@ -48,6 +57,8 @@ export class ManageIdeasService {
       this.ideas = this.ideas.concat(newIdeas);
       this.ideasSubject.next(this.ideas);
       this.manageUx.triggerdisplayedIdeas(true);
+      this.loadedMoreNumber++;
+      this.loadedMoreNumberSubject.next(this.loadedMoreNumber);
     }catch(e){
       console.log(e);
       this.manageUx.triggerOtherError(true);

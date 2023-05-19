@@ -5,5 +5,7 @@
 </div>
 <form class="gift-form" (submit)="sendRequest()" [formGroup]="giftinputForm">
     <input [readOnly]="disableBtn" class="input-field" placeholder="Tell us about your wishes..." formControlName="user_input">
+    <p class="error" *ngIf="giftinputForm.get('user_input')!.errors && (giftinputForm.get('user_input')!.touched || submitted)">Stay between 8 and 200 characters...</p>
+    <p class="error-placeholder" *ngIf="!(giftinputForm.get('user_input')!.errors && (giftinputForm.get('user_input')!.touched || submitted))">Stay between 8 and 200 characters...</p>
     <button [disabled]="disableBtn" class="submit-button">Generate Ideas</button>
 </form>
