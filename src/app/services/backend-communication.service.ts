@@ -7,7 +7,7 @@ import { lastValueFrom } from 'rxjs';
 })
 export class BackendCommunicationService {
 
-  BASE_URL = "http://127.0.0.1:5000";
+  BASE_URL = "https://your-giftwhisperer.nw.r.appspot.com";
 
   constructor(private http: HttpClient) { }
 
