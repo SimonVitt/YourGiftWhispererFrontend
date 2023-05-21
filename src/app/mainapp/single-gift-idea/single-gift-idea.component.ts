@@ -8,5 +8,13 @@ import { GiftIdea } from 'src/app/interfaces/gift-idea';
 })
 export class SingleGiftIdeaComponent {
   @Input() idea!: GiftIdea;
+  @Input() index!: number;
+
+  imageSource!: string;
+
+  ngOnInit(){
+    const modulo = this.index % 4;
+    this.imageSource = `assets/img/cardimg${modulo}.webp`
+  }
 
 }

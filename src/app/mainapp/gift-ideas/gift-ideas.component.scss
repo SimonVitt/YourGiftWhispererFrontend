@@ -1,9 +1,14 @@
 $secondary-color: #B0C4DE;
 $hover-color: #FF4500;
-$primary-color: #FF7F50;
+$primary-color: #FF7F51;
 
 :host{
+    display: flex;
+    flex-direction: column;
     padding-bottom: 40px;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .gift-ideas {
@@ -11,25 +16,23 @@ $primary-color: #FF7F50;
     flex-direction: column;
     align-items: center;
     padding: 20px 40px;
-    margin-top: 40px;
+
+    .h2{
+        margin-top: 0;
+    }
 }
 
 .placeholder-ideas {
     margin-top: 40px;
-    color: $secondary-color;
-    font-style: italic;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
 }
 
 .loading-container{
-    margin-top: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: $secondary-color;
-    font-style: italic;
-    font-size: 1.2em;
+    font-size: 1em;
     text-align: center;
 
     span{
@@ -38,10 +41,8 @@ $primary-color: #FF7F50;
 }
 
 .more-details{
-    color: $secondary-color;
-    font-style: italic;
-    font-size: 1.2em;
-    margin-top: 20px;
+    font-size: 1em;
+    margin-top: 60px;
 }
 
 .error-response{
@@ -50,7 +51,6 @@ $primary-color: #FF7F50;
     flex-direction: column;
     align-items: center;
     color: $hover-color;
-    font-style: italic;
     font-size: 1.2em;
     text-align: center;
 }
@@ -76,18 +76,22 @@ $primary-color: #FF7F50;
 
 .submit-button {
     padding: 15px 30px;
+    width: fit-content;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: $primary-color;
     color: #fff;
     cursor: pointer;
     font-size: 1.2em;
+    margin-top: 60px;
     transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    filter: drop-shadow(0px 4px 12px rgba(153, 75, 47, 0.06));
 
     &:hover {
         background-color: $hover-color;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25), 0px 2px 3px rgba(0, 0, 0, 0.22);
     }
 
     &:disabled{
@@ -98,8 +102,8 @@ $primary-color: #FF7F50;
 
 @media(max-width: 720px){
     :host{
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 32px;
+        padding-right: 32px;
     }
 
     .gift-ideas{
@@ -107,7 +111,6 @@ $primary-color: #FF7F50;
         margin-top: 20px;
     }
 
-    .placeholder-ideas,
     .loading-container,
     .error-response,
     .more-details {
@@ -115,9 +118,31 @@ $primary-color: #FF7F50;
         margin-top: 20px;  // Reduce top margin
     }
 
+    .placeholder-ideas,
+    .loading-container{
+        margin-top: 0px !important;
+    }
+
+    .submit-button{
+        margin-top: 36px;
+    }
+
     .loader {
         border-width: 7px;  // Reduce border width
         width: 40px;  // Reduce size
         height: 40px;  // Reduce size
+    }
+}
+
+@media(max-width: 400px){
+    :host{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+
+@media(max-width: 464px){
+    .submit-button{
+        font-size: 1em;
     }
 }

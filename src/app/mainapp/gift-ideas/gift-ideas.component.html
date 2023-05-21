@@ -2,14 +2,17 @@
     <span>Your personal ideas will be displayed here!</span>
 </div>
 <div *ngIf="displayIdeas" class="gift-ideas">
-    <app-single-gift-idea *ngFor="let idea of ideas" [idea]="idea"></app-single-gift-idea>
-    <button *ngIf="!requestedMoreToOften" class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()">Generate more Ideas</button>
+    <!--<h2>Gift ideas for you:</h2>-->
+    <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 60px;">
+        <app-single-gift-idea *ngFor="let idea of ideas; let i = index" [idea]="idea" [index]="i"></app-single-gift-idea>
+    </div>
+    <button *ngIf="!requestedMoreToOften" class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()"><img style="margin-right: 9px;" alt="loading Image" src="assets/img/rotate_left.svg">Generate more Ideas...</button>
     <span *ngIf="requestedMoreToOften" class="more-details">Please provide a more detailed description... :)</span>
 </div>
 <div *ngIf="loading" class="loading-container">
     <div class="loader"></div>
-    <span>Generating...</span>
-    <span>To provide the best selection this can take up to a minute :)</span>
+    <span style="font-size: 16px;">Generating...</span>
+    <span style="font-style: italic;">To provide the best selection this can take up to a minute :)</span>
     <span>Trust me, it's worth it! ;)</span>
 </div>
 <div *ngIf="wrongInputError" class="error-response">
