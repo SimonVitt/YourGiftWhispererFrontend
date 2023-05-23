@@ -6,11 +6,9 @@ import { ManageUxService } from './manage-ux.service';
 
 interface ResponseType {
   id: string;
-  choices: {
-    message: {
-      content: string;
-    };
-  }[];
+  choices: [
+    {text: string}
+  ];
 }
 
 @Injectable({
@@ -33,15 +31,16 @@ export class ManageIdeasService {
   async getIdeas(user_input: string) {
     this.loadedMoreNumber = 0;
     this.loadedMoreNumberSubject.next(this.loadedMoreNumber);
+    this.ideas = [];
     const fd = new FormData();
     this.userrequest = user_input;
     fd.append('user_input', user_input);
     const response = await this.backend.sendPrompt(fd) as ResponseType;
     console.log(response);
-    this.stringToJSON(response.choices[0].message.content);
+    this.stringToJSON(response);
   }
 
-  async getMoreIdeas(){
+  async getMoreIdeas() {
     const fd = new FormData();
     let ideastring = '';
     this.ideas.forEach(idea => {
@@ -50,27 +49,27 @@ export class ManageIdeasService {
     fd.append('user_input', this.userrequest!);
     fd.append('currentideas', ideastring);
     const response = await this.backend.sendPrompt(fd) as ResponseType;
-    try{
-      const jsonItems = JSON.parse(response.choices[0].message.content);
+    try {
+      const jsonItems = this.getJSONSasArray(response);
       console.log(jsonItems)
       const newIdeas = jsonItems as Array<GiftIdea>;
-      this.ideas = this.ideas.concat(newIdeas);
+      this.pushInIdeas(newIdeas as Array<GiftIdea>);
       this.ideasSubject.next(this.ideas);
       this.manageUx.triggerdisplayedIdeas(true);
       this.loadedMoreNumber++;
       this.loadedMoreNumberSubject.next(this.loadedMoreNumber);
-    }catch(e){
+    } catch (e) {
       console.log(e);
       this.manageUx.triggerOtherError(true);
     }
   }
 
-  stringToJSON(ideastring: string) {
-    console.log(ideastring);
+  stringToJSON(response: ResponseType) {
+    console.log(response);
     try {
-      const jsonItems = JSON.parse(ideastring);
+      const jsonItems = this.getJSONSasArray(response);
       console.log(jsonItems);
-      this.ideas = jsonItems as Array<GiftIdea>;
+      this.pushInIdeas(jsonItems as Array<GiftIdea>);
       console.log(this.ideas);
       this.ideasSubject.next(this.ideas);
       this.manageUx.triggerdisplayedIdeas(true);
@@ -79,6 +78,30 @@ export class ManageIdeasService {
       this.ideas = [];
       this.manageUx.triggerWrongInput(true);
     }
+  }
+
+  getJSONSasArray(response: ResponseType) {
+    const rawString = response['choices'][0]['text']; // Replace this with your raw string.
+
+    // Matches strings that look like JSON objects, capturing the object content.
+    let jsonObjectRegex = /\{(.*?)\}/gs;
+    let jsonObjects = [];
+    let match;
+    while (match = jsonObjectRegex.exec(rawString)) {
+      let jsonString = '{' + match[1] + '}';
+      let jsonObject = JSON.parse(jsonString);
+      jsonObjects.push(jsonObject);
+    }
+    return jsonObjects;
+  }
+
+  pushInIdeas(newArray: Array<GiftIdea>){
+    newArray.forEach(idea => {
+      const exists = this.ideas.some(ideaInside => ideaInside.title === idea.title);
+      if(!exists){
+        this.ideas.push(idea);
+      }
+    })
   }
 
   scrollToIdeas() {

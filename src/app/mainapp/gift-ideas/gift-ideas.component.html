@@ -6,8 +6,8 @@
     <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 60px;">
         <app-single-gift-idea *ngFor="let idea of ideas; let i = index" [idea]="idea" [index]="i"></app-single-gift-idea>
     </div>
-    <button *ngIf="!requestedMoreToOften" class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()"><img style="margin-right: 9px;" alt="loading Image" src="assets/img/rotate_left.svg">Generate more Ideas...</button>
-    <span *ngIf="requestedMoreToOften" class="more-details">Please provide a more detailed description... :)</span>
+    <!--<button *ngIf="!requestedMoreToOften" class="submit-button" [disabled]="disableBtn" (click)="getMoreIdeas()"><img style="margin-right: 9px;" alt="loading Image" src="assets/img/rotate_left.svg">Generate more Ideas...</button>-->
+    <span class="more-details" style="text-align: center;">To get more suiting Ideas please give us more information! :)</span>
 </div>
 <div *ngIf="loading" class="loading-container">
     <div class="loader"></div>
