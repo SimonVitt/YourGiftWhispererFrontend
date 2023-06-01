@@ -48,7 +48,7 @@ export class ManageIdeasService {
     });
     fd.append('user_input', this.userrequest!);
     fd.append('currentideas', ideastring);
-    const response = await this.backend.sendPrompt(fd) as ResponseType;
+    const response = await this.backend.sendPromptMoreIdeas(fd) as ResponseType;
     try {
       const jsonItems = this.getJSONSasArray(response);
       console.log(jsonItems)

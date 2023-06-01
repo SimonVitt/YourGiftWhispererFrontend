@@ -15,4 +15,8 @@ export class BackendCommunicationService {
   sendPrompt(body: FormData){
     return lastValueFrom(this.http.post(this.BASE_URL + "/getidea", body))
   }
+
+  sendPromptMoreIdeas(body: FormData){
+    return lastValueFrom(this.http.post(this.BASE_URL + "/get_more_ideas", body))
+  }
 }
